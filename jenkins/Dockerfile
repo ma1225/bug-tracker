@@ -15,3 +15,6 @@ RUN echo "deb [arch=$(dpkg --print-architecture) \
 RUN apt-get update && apt-get install -y docker-ce-cli
 
 USER jenkins
+
+FROM jenkins/jenkins:lts
+RUN jenkins-plugin-cli --plugins pipeline-model-definition:latest pipeline-stage-view:latest
