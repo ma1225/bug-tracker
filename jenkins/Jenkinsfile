@@ -6,8 +6,7 @@ pipeline {
             steps {
                 dir('bugtracker-backend') {
                     sh '''
-                      unset DOCKER_HOST
-                      docker pull golang:1.21 || true
+                      docker pull golang:1.21
                       docker run --rm -v "$PWD":/go/src/app -w /go/src/app golang:1.21 sh -c "go test -v ./..."
                     '''
                 }
