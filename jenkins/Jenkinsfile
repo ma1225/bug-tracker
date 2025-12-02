@@ -2,19 +2,16 @@ pipeline {
     agent any
     
     stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
         stage('Unit Tests - Backend') {
+            agent {
+                docker {
+                    image 'snakee/golang-junit:1.21'
+                    reuseNode true
+                }
+            }
             steps {
                 dir('bugtracker-backend') {
-                    sh '''
-                      docker pull golang:1.21
-                      docker run --rm -v "$PWD":/go/src/app -w /go/src/app golang:1.21 sh -c "go test -v ./..."
-                    '''
+                    sh 'go test -v ./...'
                 }
             }
         }
