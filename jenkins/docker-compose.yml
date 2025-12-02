@@ -6,7 +6,6 @@ services:
     environment:
       - DOCKER_TLS_CERTDIR=/certs
     volumes:
-      - jenkins-socket:/var/run/docker.sock:/var/run/docker.sock
       - jenkins-docker-certs:/certs/client
       - jenkins-data:/var/jenkins_home
     ports:
@@ -28,7 +27,6 @@ services:
       - DOCKER_TLS_VERIFY=1
       - JAVA_OPTS=-Dhudson.model.DirectoryBrowserSupport.CSP="default-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';"
     volumes:
-      - jenkins-socket:/var/run/docker.sock:/var/run/docker.sock
       - jenkins-data:/var/jenkins_home
       - jenkins-docker-certs:/certs/client:ro
     ports:
