@@ -1,18 +1,17 @@
 pipeline {
     agent any
-    
+
     stages {
         stage('Unit Tests - Backend') {
-            agent {
-                docker {
-                    sh 'docker --version || true'; sh 'echo $DOCKER_HOST || true'; sh 'ping -c1 docker || true'
-                    image 'snakee/golang-junit:1.21'
-                    reuseNode true
-                }
-            }
             steps {
                 dir('bugtracker-backend') {
-                    sh 'go test -v ./...'
+                    // clear any global DOCKER_HOST that points to "docker:2376"
+                    withEnv(['DOCKER_HOST=']) {
+                        sh '''
+                          docker pull golang:1.21 || true
+                          docker run --rm -v "$PWD":/go/src/app -w /go/src/app golang:1.21 sh -c "go test -v ./..."
+                        '''
+                    }
                 }
             }
         }
