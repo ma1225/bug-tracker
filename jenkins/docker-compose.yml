@@ -5,6 +5,7 @@ services:
     image: my-jenkins
     container_name: my-jenkins
     restart: on-failure
+    user: "0"  # run as root (dev only; not for production)
     environment:
       - JAVA_OPTS=-Dhudson.model.DirectoryBrowserSupport.CSP="default-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';"
     volumes:
